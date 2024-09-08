@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  transfer-api:
+    container_name: transfer-api
+    image:  transfer-api
+    build:
+      context: .
+      dockerfile: Dockerfile 
+    environment:
+      HOST: 0.0.0.0
+    ports:
+      - "8080:8080"
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/home/backend/transfer
+    networks:
+      - backend
+
+networks:
+  backend:
+    external: true

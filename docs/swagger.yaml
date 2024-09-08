@@ -1,0 +1,132 @@
+basePath: /api/v1
+definitions:
+  apis.TransferRequest:
+    description: Represents the request payload for transferring ownership.
+    properties:
+      folder_id:
+        description: |-
+          FolderID of the folder whose ownership is to be transferred
+          Required: true
+        example: 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms
+        type: string
+      new_owner_email:
+        description: |-
+          Email of the new owner
+          Required: true
+        example: newowner@example.com
+        type: string
+      origin_email:
+        description: |-
+          Email of the current owner
+          Required: true
+        example: currnetowner@example.com
+        type: string
+    type: object
+  apis.UserInfo:
+    description: Represents the user info response.
+    properties:
+      email:
+        description: |-
+          Email of the user
+          Required: true
+        type: string
+      exp:
+        description: |-
+          Expiry time of the token
+          Required: true
+        type: integer
+      picture:
+        description: |-
+          Picture of the user
+          Required: true
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server using Gorilla Mux with multiple APIs.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Example API
+  version: "1.0"
+paths:
+  /api/v1/oauth/google:
+    get:
+      consumes:
+      - application/json
+      description: Exchanges the authorization code for an access token and retrieves
+        user info
+      parameters:
+      - description: Authorization code
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User info
+          schema:
+            $ref: '#/definitions/apis.UserInfo'
+        "400":
+          description: Missing code parameter
+          schema: {}
+        "500":
+          description: Failed to exchange token or retrieve user info
+          schema: {}
+      summary: Google Drive OAuth2 callback
+      tags:
+      - oauth
+  /oauth/google:
+    get:
+      consumes:
+      - application/json
+      description: Redirects the user to the Google OAuth2 authorization URL to obtain
+        an access token
+      produces:
+      - application/json
+      responses:
+        "302":
+          description: Redirect URL
+          schema:
+            type: string
+      summary: Redirect to Google OAuth2 authorization URL
+      tags:
+      - oauth
+  /transfer:
+    post:
+      consumes:
+      - application/json
+      description: Initiates the transfer of ownership for a Google Drive folder to
+        a specified email address.
+      parameters:
+      - description: Request payload for transferring ownership
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/apis.TransferRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Ownership transfer initiated.
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Transfer ownership of a Google Drive folder
+      tags:
+      - transfer
+swagger: "2.0"
