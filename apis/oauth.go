@@ -93,14 +93,15 @@ func OAuthGoogleDriveCallback(w http.ResponseWriter, r *http.Request) {
 
 	defer response.Body.Close()
 
-	expiresAt := time.Time{}
+	var expiresAt *time.Time
 
 	if userInfo.Expiry == 0 {
-		expiresAt = time.Time{}
+		expiresAt = nil
 	} else {
-		expiresAt = time.Unix(userInfo.Expiry, 0)
+		t := time.Unix(userInfo.Expiry, 0)
+		expiresAt = &t
 	}
-
+	
 	_, err = database.MySQL.Exec(`
         INSERT INTO oauth (avatar_url, provider, email, refresh_token, access_token, expires_at)
         VALUES (?, ?, ?, ?, ?, ?)
