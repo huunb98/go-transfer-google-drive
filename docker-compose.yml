@@ -10,7 +10,7 @@ services:
     environment:
       HOST: 0.0.0.0
     ports:
-      - "8080:8080"
+      - "8008:8008"
     stdin_open: true
     tty: true
     volumes:
