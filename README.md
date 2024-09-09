@@ -23,8 +23,8 @@ Once you have Docker installed, you can build the project by running the followi
 
 ```bash
 docker network create backend
-docker-compose -f docker-compose.mysql.yml up -d
-docker-compose -f docker-compose.yml up --build
+docker compose -f docker-compose.mysql.yml up --build
+docker compose -f docker-compose.yml up --build
 ```
 
 ## Usage
