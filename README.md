@@ -34,3 +34,5 @@ To use Go Transfer Owner, you can run the following command:
 go mod tidy
 make run
 ```
+
+Swagger serve at http://localhost:8008/swagger/index.html#/
