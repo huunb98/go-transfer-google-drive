@@ -31,4 +31,4 @@ RUN  go build -o main main.go
 ENTRYPOINT ["sh", "-c", "make migration_up && go run main.go"]
 
 # Expose the port that the app will listen on
-EXPOSE 8008
+EXPOSE 8080
